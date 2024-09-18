@@ -1,0 +1,124 @@
+{
+    "intents": [
+        {
+            "tag": "greetings",
+            "patterns": [
+                "hello", "hey", "hi", "good day", "greetings", "what's up?", "bonjour", "how is it going?", "howdy", "what's happening?", "what's new?", "hi there", "hey there", "what's good?", "hey, how are you?", "hello there!"
+            ],
+            "responses": [
+                "Hello!!!", "Hey", "What can I do for you?", "Hey there!!!", "Hello there!!!"
+            ],
+            "action": "none"
+        },
+        {
+            "tag": "goodbye",
+            "patterns": [
+                "bye", "see you", "goodbye", "later", "see you later", "I'm off", "catch you later", "take care", "farewell", "talk to you later", "see ya", "good night", "I'm leaving", "I'm out"
+            ],
+            "responses": [
+                "Goodbye!", "See you later!", "Take care!", "Catch you later!", "Have a great day!"
+            ],
+            "action": "exit_chat"
+        },
+        {
+            "tag": "thanks",
+            "patterns": [
+                "thanks", "thank you", "appreciate it", "thanks a lot", "cheers", "many thanks", "thanks so much", "thanks a million", "I'm grateful", "thanks for your help", "I appreciate it", "thanks for assisting"
+            ],
+            "responses": [
+                "You're welcome!", "No problem!", "Happy to help!", "Anytime!"
+            ],
+            "action": "none"
+        },
+        {
+            "tag": "create_category",
+            "patterns": [
+                "create a new category", "I want to add a new category", "add a category", "new category", "set up a category", "make a new category", "add a new category", "create category", "set a new category", "introduce a category", "establish a category"
+            ],
+            "responses": [
+                "What would you like to name the new category?", "Sure! What's the name of the category?", "Give me the name for the new category."
+            ],
+            "action": "create_category"
+        },
+        {
+            "tag": "add_task",
+            "patterns": [
+                "add a task", "create a task", "put this on my to-do list", "add an item to my to-do list", "I want to add a task", "can you add a task?", "add an event", "include a task", "add something to my list", "put this task in my list", "create a new task", "add this to my to-do"
+            ],
+            "responses": [
+                "What's the task you'd like to add?", "Please provide the details of the task.", "Sure, what task do you want to add?", "What would you like to add to your to-do list?"
+            ],
+            "action": "add_task"
+        },
+        {
+            "tag": "add_task_with_date",
+            "patterns": [
+                "add a task for tomorrow", "schedule a task", "remind me to", "add this task with a due date", "add a task with a deadline", "set a task with a date", "include a deadline for this task", "add a timed task", "schedule this task", "set a due date for the task", "add a task with a specific date"
+            ],
+            "responses": [
+                "What's the task and when is the due date?", "Sure! What task should I add and for what date?", "Please provide the task and the deadline.", "Okay, give me the task details and the due date."
+            ],
+            "action": "add_task_with_date"
+        },
+        {
+            "tag": "view_tasks",
+            "patterns": [
+                "show my to-do list", "show me my tasks", "what's on my to-do list?", "view my tasks", "list my tasks", "what tasks do I have?", "do I have any tasks?", "display my tasks", "what are my tasks?", "list out my tasks", "show my tasks", "show all tasks"
+            ],
+            "responses": [
+                "Here are your tasks:", "You have the following tasks:", "Here's your to-do list."
+            ],
+            "action": "view_tasks"
+        },
+        {
+            "tag": "view_category_tasks",
+            "patterns": [
+                "show my tasks in the Work category", "list all tasks in Personal category", "what tasks do I have in Shopping?", "show my tasks from", "show me tasks in", "display tasks in Work category", "list tasks under Personal", "what are my tasks in Shopping?", "show tasks from", "tasks in the category", "show tasks for"
+            ],
+            "responses": [
+                "Here are your tasks in the specified category:", "These are the tasks in that category:", "Tasks in the requested category are:"
+            ],
+            "action": "view_category_tasks"
+        },
+        {
+            "tag": "delete_task",
+            "patterns": [
+                "delete a task", "remove a task", "delete this from my list", "remove this task", "delete an item from my list", "erase a task", "get rid of this task", "remove this item", "remove a to-do", "delete this to-do", "discard a task", "remove this entry"
+            ],
+            "responses": [
+                "Which task would you like to delete?", "Tell me the task you want to remove.", "Which task should I delete for you?"
+            ],
+            "action": "delete_task"
+        },
+        {
+            "tag": "delete_category",
+            "patterns": [
+                "delete a category", "remove a category", "delete this category", "remove this category", "erase a category", "get rid of this category", "remove this category", "discard a category", "delete this category now", "eliminate a category", "remove category"
+            ],
+            "responses": [
+                "Which category would you like to delete?", "Tell me the category name you want to remove.", "Which category should I delete?"
+            ],
+            "action": "delete_category"
+        },
+        {
+            "tag": "help",
+            "patterns": [
+                "help", "I need help", "can you help me?", "what can you do?", "what are your features?", "tell me what you can do", "how can you assist me?", "what assistance do you offer?", "what tasks can you perform?", "give me a rundown of your abilities", "how can you help?", "what services do you provide?", "show me your features", "what can you assist with?", "what's your functionality?", "what are you capable of?", "how do you work?", "what can I ask you?", "how can you support me?", "what can you do for me?", "what can u do for me?"
+            ],
+            "responses": [
+                "I can help you manage your to-do list, add and remove tasks, create categories, and remind you about tasks.", "I'm here to help you with tasks, events, and categories. Just tell me what you need!"
+            ],
+            "action": "provide_help"
+        },
+        {
+            "tag": "who_are_you",
+            "patterns": [
+                "who are you?", "what's your name?", "tell me about yourself", "who are you", "what is your name?", "introduce yourself", "what do you go by?", "who am I talking to?", "what are you called?", "what should I call you?", "who is this?", "what's your identity?"
+            ],
+            "responses": [
+                "Hi!! I am Aloha, your personal assistant"
+            ],
+            "action": "none"
+        }
+    ]
+}

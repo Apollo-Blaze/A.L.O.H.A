@@ -1,0 +1,36 @@
+name: alohapp
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.2.2
+  shared_preferences: ^2.0.15
+  hive: ^2.1.0  # Ensure this version is up to date
+  hive_flutter: ^1.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+
+  # Add the fonts section
+  fonts:
+    - family: Audiowide
+      fonts:
+        - asset: assets/fonts/Audiowide-Regular.ttf
+    - family: Dot
+      fonts:
+        - asset: assets/fonts/Dot-Regular.ttf
+    - family: Cousine
+      fonts:
+        - asset: assets/fonts/Cousine-Regular.ttf
