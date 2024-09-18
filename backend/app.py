@@ -10,6 +10,8 @@ import pickle
 import difflib
 import random
 
+nltk.download('punkt')
+
 app = Flask(__name__)
 CORS(app)
 

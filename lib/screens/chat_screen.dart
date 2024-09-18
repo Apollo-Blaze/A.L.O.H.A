@@ -32,7 +32,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Future<String> _sendToApi(String message) async {
-    final url = 'http://127.0.0.1:5000/chat'; // Replace with your Flask API URL
+    final url = 'https://a-l-o-h-a.onrender.com/chat'; // Use your actual Render URL
     final response = await http.post(
       Uri.parse(url),
       headers: {"Content-Type": "application/json"},
@@ -69,7 +69,7 @@ class _ChatScreenState extends State<ChatScreen> {
       key: _scaffoldKey,
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.menu, color: Colors.white), // Set the color to white
+          icon: Icon(Icons.menu, color: Colors.white),
           onPressed: () => _scaffoldKey.currentState?.openDrawer(),
         ),
         title: Text(
@@ -80,7 +80,7 @@ class _ChatScreenState extends State<ChatScreen> {
             color: Colors.white,
           ),
         ),
-        backgroundColor: Colors.black, // Same color as chat screen
+        backgroundColor: Colors.black,
       ),
       drawer: Drawer(
         backgroundColor: Color(0xFF171717),
@@ -95,13 +95,13 @@ class _ChatScreenState extends State<ChatScreen> {
                   color: Color(0xFF171717),
                 ),
                 child: Align(
-                  alignment: Alignment.centerLeft, // Align to the left
+                  alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 0), // Add left padding
+                    padding: const EdgeInsets.only(left: 0),
                     child: Text(
                       'Menu',
                       style: TextStyle(
-                        fontFamily: 'Cousine', // Updated fontFamily
+                        fontFamily: 'Cousine',
                         color: Colors.white,
                         fontSize: 36,
                       ),
@@ -120,7 +120,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       title: Text(
                         'Personal Assistant',
                         style: TextStyle(
-                          fontFamily: 'Cousine', // Updated fontFamily
+                          fontFamily: 'Cousine',
                           color: Colors.white,
                           fontSize: 16,
                         ),
@@ -140,7 +140,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       title: Text(
                         'Wiki',
                         style: TextStyle(
-                          fontFamily: 'Cousine', // Updated fontFamily
+                          fontFamily: 'Cousine',
                           color: Colors.white,
                           fontSize: 16,
                         ),
@@ -160,7 +160,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       title: Text(
                         'Schedule',
                         style: TextStyle(
-                          fontFamily: 'Cousine', // Updated fontFamily
+                          fontFamily: 'Cousine',
                           color: Colors.white,
                           fontSize: 16,
                         ),
@@ -252,7 +252,7 @@ class _ChatScreenState extends State<ChatScreen> {
           ],
         ),
       ),
-      backgroundColor: Colors.black, // Matching the AppBar color
+      backgroundColor: Colors.black,
     );
   }
 }
