@@ -76,7 +76,7 @@ class _ChatScreenState extends State<ChatScreen> {
           'A.L.O.H.A',
           style: TextStyle(
             fontFamily: 'Audiowide',
-            fontSize: 20,
+            fontSize: 30,
             color: Colors.white,
           ),
         ),
@@ -94,11 +94,18 @@ class _ChatScreenState extends State<ChatScreen> {
                 decoration: BoxDecoration(
                   color: Color(0xFF171717),
                 ),
-                child: Text(
-                  'Menu',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30,
+                child: Align(
+                  alignment: Alignment.centerLeft, // Align to the left
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 0), // Add left padding
+                    child: Text(
+                      'Menu',
+                      style: TextStyle(
+                        fontFamily: 'Cousine', // Updated fontFamily
+                        color: Colors.white,
+                        fontSize: 36,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -110,7 +117,14 @@ class _ChatScreenState extends State<ChatScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 2.0),
                     child: ListTile(
-                      title: Text('Personal Assistant', style: TextStyle(color: Colors.white, fontSize: 16)),
+                      title: Text(
+                        'Personal Assistant',
+                        style: TextStyle(
+                          fontFamily: 'Cousine', // Updated fontFamily
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
                       tileColor: _selectedDrawerItem == 0 ? Colors.grey[800] : null,
                       onTap: () {
                         setState(() {
@@ -123,7 +137,14 @@ class _ChatScreenState extends State<ChatScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 2.0),
                     child: ListTile(
-                      title: Text('Wiki', style: TextStyle(color: Colors.white, fontSize: 16)),
+                      title: Text(
+                        'Wiki',
+                        style: TextStyle(
+                          fontFamily: 'Cousine', // Updated fontFamily
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
                       tileColor: _selectedDrawerItem == 1 ? Colors.grey[800] : null,
                       onTap: () {
                         setState(() {
@@ -136,7 +157,14 @@ class _ChatScreenState extends State<ChatScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: ListTile(
-                      title: Text('Schedule', style: TextStyle(color: Colors.white, fontSize: 16)),
+                      title: Text(
+                        'Schedule',
+                        style: TextStyle(
+                          fontFamily: 'Cousine', // Updated fontFamily
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
                       tileColor: _selectedDrawerItem == 2 ? Colors.grey[700] : null,
                       onTap: () {
                         setState(() {
