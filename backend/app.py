@@ -10,7 +10,8 @@ import pickle
 import difflib
 import random
 
-nltk.download('all')
+nltk.download('punkt')
+nltk.download('wordnet')
 
 app = Flask(__name__)
 CORS(app)
