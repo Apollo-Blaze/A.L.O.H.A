@@ -32,7 +32,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Future<String> _sendToApi(String message) async {
-    final url = 'https://a-l-o-h-a.onrender.com/chat'; // Use your actual Render URL
+    final url = 'http://192.168.18.170:5000/chat'; // Use your actual Render URL
     final response = await http.post(
       Uri.parse(url),
       headers: {"Content-Type": "application/json"},

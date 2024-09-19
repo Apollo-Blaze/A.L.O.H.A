@@ -7,7 +7,6 @@ from nltk.stem import WordNetLemmatizer
 from tensorflow.keras.models import load_model
 import json
 import pickle
-import difflib
 import random
 
 nltk.download('punkt')
@@ -54,6 +53,7 @@ with app.app_context():
 
 conversation_state = {}
 tl = [0] * 5  # Track different task flows
+at=["greetings","help","who_are_you","thanks","goodbye"]
 
 def clean_up_sentence(sentence):
     sentence_words = nltk.word_tokenize(sentence)
@@ -81,39 +81,13 @@ def predict_class(sentence):
     return return_list
 
 def get_response(intents_list, intents_json, message=None):
-    print(intents_list)
     if not intents_list:
         return "Sorry, I didn't understand that."
     
     tag = intents_list[0]['intent']
-    print(f"Intent: {tag}")  # Debug statement
-    print(f"Message: {message}")  # Debug statement
-    print(f"Conversation State: {conversation_state}")  # Debug statement
-    print(f"Task Flows: {tl}")  # Debug statement
-
-    if tag == "greetings":
-        for i in intents_json['intents']:
-            if i['tag'] == tag:
-                return random.choice(i['responses'])
 
     if sum(tl) == 0:
-        if tag == "greetings":
-            for i in intents_json['intents']:
-                if i['tag'] == tag:
-                    return random.choice(i['responses'])
-        if tag == "help":
-            for i in intents_json['intents']:
-                if i['tag'] == tag:
-                    return random.choice(i['responses'])
-        if tag == "who_are_you":
-            for i in intents_json['intents']:
-                if i['tag'] == tag:
-                    return random.choice(i['responses'])
-        if tag == "thanks":
-            for i in intents_json['intents']:
-                if i['tag'] == tag:
-                    return random.choice(i['responses'])
-        if tag == "goodbye":
+        if tag in at:
             for i in intents_json['intents']:
                 if i['tag'] == tag:
                     return random.choice(i['responses'])
@@ -152,7 +126,6 @@ def get_response(intents_list, intents_json, message=None):
             conversation_state['task_name'] = message
             conversation_state.pop('waiting_for_task_name', None)
             conversation_state['waiting_for_task_date'] = True
-            print(message)
             return "What is the date of the task? (Optional, you can skip this.)"
         else:
             tl[1] = 0
@@ -183,7 +156,6 @@ def get_response(intents_list, intents_json, message=None):
                 'date': conversation_state['task_date'],
                 'time': conversation_state['task_time']
             })
-            print("this is being sent:",response)
             conversation_state.clear()
             tl[1] = 0
             return response
@@ -258,17 +230,11 @@ def create_category(message):
     return f"Category '{category_name}' has been created."
 
 def add_task(message):
-    print("Received message:", message)  # Debugging statement
 
     task_name = message.get('task', '').strip() or 'Unnamed Task'
     task_date = message.get('date', '').strip() if message.get('date') is not None else ''
     task_time = message.get('time', '').strip() if message.get('time') is not None else ''
     category_name = message.get('category', '').strip()
-
-    print("Task Name:", task_name)  # Debugging statement
-    print("Task Date:", task_date)  # Debugging statement
-    print("Task Time:", task_time)  # Debugging statement
-    print("Category Name:", category_name)  # Debugging statement
 
     if not task_name:
         return "Task name is required."
@@ -365,10 +331,3 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
-
-
-
-
-
-
-
