@@ -19,9 +19,18 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
+  flutter_launcher_icons: ^0.10.0
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: assets/aloha.png
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/aloha.png
 
   # Add the fonts section
   fonts:
