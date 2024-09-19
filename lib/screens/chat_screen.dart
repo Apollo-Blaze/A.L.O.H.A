@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../models/message.dart';
 import 'dart:async'; // Required for delay
+import 'another_screen.dart';
 
 class ChatScreen extends StatefulWidget {
   @override
@@ -336,6 +337,10 @@ class _ChatScreenState extends State<ChatScreen> {
                           _selectedDrawerItem = 0;
                         });
                         Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ChatScreen()), // Navigate to AnotherScreen
+                        );
                       },
                     ),
                   ),
@@ -353,10 +358,32 @@ class _ChatScreenState extends State<ChatScreen> {
                       tileColor: _selectedDrawerItem == 1 ? Colors.grey[800] : null,
                       onTap: () {
                         setState(() {
-                          _selectedDrawerItem = 1;
+                          _selectedDrawerItem = 1; // Set the index for the selected item
                         });
                         Navigator.pop(context);
+
+                        // Custom page transition for AnotherScreen
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder: (context, animation, secondaryAnimation) => AnotherScreen(),
+                            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                              const begin = Offset(1.0, 0.0); // Start from the right
+                              const end = Offset.zero; // End at the center
+                              const curve = Curves.easeInOut;
+
+                              var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                              var offsetAnimation = animation.drive(tween);
+
+                              return SlideTransition(
+                                position: offsetAnimation,
+                                child: child,
+                              );
+                            },
+                          ),
+                        );
                       },
+
                     ),
                   ),
                   Padding(
