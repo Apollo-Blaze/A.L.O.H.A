@@ -347,6 +347,11 @@ def view_tasks(category_name):
         return f"Category: {category.name}\n{task_list}"
 
 
+@app.route('/')
+def home():
+    return "Home Page"
+
+
 @app.route('/chat', methods=['POST'])
 def chat():
     incoming_msg = request.json.get('message', '')

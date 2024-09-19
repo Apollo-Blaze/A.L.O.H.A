@@ -63,7 +63,6 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final keyboardHeight = mediaQuery.viewInsets.bottom;
-    final isKeyboardVisible = keyboardHeight > 0;
 
     return Scaffold(
       key: _scaffoldKey,
@@ -76,7 +75,7 @@ class _ChatScreenState extends State<ChatScreen> {
           'A.L.O.H.A',
           style: TextStyle(
             fontFamily: 'Audiowide',
-            fontSize: 30,
+            fontSize: 24,
             color: Colors.white,
           ),
         ),
@@ -180,77 +179,72 @@ class _ChatScreenState extends State<ChatScreen> {
           ],
         ),
       ),
-      body: AnimatedPadding(
-        padding: EdgeInsets.only(bottom: isKeyboardVisible ? keyboardHeight : 0),
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeOut,
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                controller: _scrollController,
-                reverse: false,
-                itemCount: _messages.length,
-                itemBuilder: (context, index) {
-                  final message = _messages[index];
-                  return Align(
-                    alignment: message.isUser ? Alignment.centerRight : Alignment.centerLeft,
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: message.isUser ? Colors.white.withOpacity(0.90) : Colors.black,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        message.text,
-                        style: TextStyle(
-                          fontFamily: 'Cousine',
-                          color: message.isUser ? Colors.black : Colors.white,
-                          fontSize: 14,
-                          fontWeight: message.isUser ? FontWeight.w400 : FontWeight.bold,
-                        ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              controller: _scrollController,
+              reverse: false,
+              itemCount: _messages.length,
+              itemBuilder: (context, index) {
+                final message = _messages[index];
+                return Align(
+                  alignment: message.isUser ? Alignment.centerRight : Alignment.centerLeft,
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: message.isUser ? Colors.white.withOpacity(0.90) : Colors.black,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      message.text,
+                      style: TextStyle(
+                        fontFamily: 'Cousine',
+                        color: message.isUser ? Colors.black : Colors.white,
+                        fontSize: 14,
+                        fontWeight: message.isUser ? FontWeight.w400 : FontWeight.bold,
                       ),
                     ),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _controller,
-                      style: TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        hintText: 'Type a message',
-                        hintStyle: TextStyle(color: Colors.white70),
-                        filled: true,
-                        fillColor: Colors.grey[850],
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide.none,
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide.none,
-                        ),
-                        contentPadding: EdgeInsets.all(16.0),
+          ),
+          Padding(
+            padding: EdgeInsets.only(bottom: 8),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _controller,
+                    style: TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                      hintText: 'Type a message',
+                      hintStyle: TextStyle(color: Colors.white70),
+                      filled: true,
+                      fillColor: Colors.grey[850],
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none,
                       ),
-                      onSubmitted: (_) => _sendMessage(),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none,
+                      ),
+                      contentPadding: EdgeInsets.all(16.0),
                     ),
+                    onSubmitted: (_) => _sendMessage(),
                   ),
-                  IconButton(
-                    icon: Icon(Icons.send, color: Colors.white),
-                    onPressed: _sendMessage,
-                  ),
-                ],
-              ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.send, color: Colors.white),
+                  onPressed: _sendMessage,
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       backgroundColor: Colors.black,
     );
