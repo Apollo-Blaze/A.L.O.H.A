@@ -10,9 +10,15 @@ A.L.O.H.A is an AI driven personal assistant designed to help you manage tasks, 
 
 ## Development Goals
 This project is currently under active development and is a fun, exploratory side venture. It focuses on learning machine learning techniques and integrating them into a backend API, with the aim of eventually incorporating this into a Flutter application. The project is a hands-on way to understand both ML and app development processes.
-- **Flutter Integration:** Convert the ALOHA chatbot into a Flutter app for mobile platforms.
+- **OS Functionality:** Develop ALOHA to execute OS level commands.
 - **Voice Assistant:** Integrate voice recognition and processing to interact with ALOHA via voice commands.
-- **Reminder System:** Implement functionality to set and manage reminders for tasks and events. 
+- **Reminder System:** Implement functionality to set and manage reminders for tasks and events.
+
+## Updates 
+- Created a basic ML model for ALOHA
+- Developed a flutter app for ALOHA
+- I have added a chatscreen that runs gemini in the hood.
+- Fixed scroll issues
 
 ## Installation
 
