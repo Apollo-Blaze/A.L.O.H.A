@@ -1,5 +1,6 @@
 import 'package:alohapp/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../models/message.dart';
@@ -17,11 +18,27 @@ class _AnotherScreenState extends State<AnotherScreen> {
   final ScrollController _scrollController = ScrollController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final ValueNotifier<bool> _hasText = ValueNotifier<bool>(false);
-  List<Map<String, dynamic>> _conversationHistory = [];
+  List<Map<String, dynamic>> _conversationHistory = [{
+    "role": "user",
+    "parts": [
+      {
+        "text": "Your name is aloha and if i ask you what your name is you are supposed to respond with the Hi, I am aloha, customize your response but include your name aloha, also include emojis"
+      }
+    ]
+  },
+    {
+      "role": "model",
+      "parts": [
+        {
+          "text": "My name is Aloha. \n"
+        }
+      ]
+    }];
   int _selectedDrawerItem = 0;
   bool _showScrollToBottomButton = false;
   bool _isLoading = false;
   bool _userIsScrolling = false;
+  bool _allowAutoScroll = true;
 
   @override
   void initState() {
@@ -45,6 +62,7 @@ class _AnotherScreenState extends State<AnotherScreen> {
 
   void _onScroll() {
     final position = _scrollController.position;
+
     if (position.pixels < position.maxScrollExtent - 100) {
       // Show button when not at the bottom
       if (!_showScrollToBottomButton) {
@@ -61,12 +79,16 @@ class _AnotherScreenState extends State<AnotherScreen> {
       }
     }
 
-    if (position.isScrollingNotifier.value) {
+    // Check if the user is scrolling
+    if (_scrollController.position.userScrollDirection != ScrollDirection.idle) {
       _userIsScrolling = true;
+      _allowAutoScroll = false; // Disable auto-scroll when user scrolls manually
     } else {
       _userIsScrolling = false;
+      _allowAutoScroll = true; // Enable auto-scroll again when user stops scrolling
     }
   }
+
 
   void _sendMessage() async {
     if (_controller.text.isNotEmpty) {
@@ -82,9 +104,6 @@ class _AnotherScreenState extends State<AnotherScreen> {
       };
 
       setState(() {
-        if (_conversationHistory.length > 2) {
-          _conversationHistory.removeAt(0);
-        }
         _messages.add(Message(text: messageText, isUser: true));
         _conversationHistory.add(userMessage);
         _isLoading = true; // Set loading state to true
@@ -131,39 +150,54 @@ class _AnotherScreenState extends State<AnotherScreen> {
   }
 
   void _simulateTyping(String response) async {
-    const typingDelay = Duration(milliseconds: 3); // Delay between each character
+    const typingDelay = Duration(milliseconds: 15); // Adjust delay for smoother typing
+    const scrollInterval = 5; // Scroll every few characters
     String displayText = '';
 
     for (int i = 0; i < response.length; i++) {
       await Future.delayed(typingDelay);
       setState(() {
         displayText += response[i];
-        // Show the partial message as it's being "typed"
+
+        // Add or update the displayed message
         if (i == 0) {
           _messages.add(Message(text: displayText, isUser: false));
         } else {
           _messages[_messages.length - 1] = Message(text: displayText, isUser: false);
         }
       });
-      _scrollToBottom();
+
+      // Scroll only every few characters for smoothness
+      if ((i % scrollInterval == 0 || i == response.length - 1) && _allowAutoScroll) {
+        Future.microtask(() => _scrollToBottom());
+      }
     }
   }
 
   void _scrollToBottom() {
-    Future.delayed(Duration(milliseconds: 100), () {
-      if (_scrollController.hasClients) {
-        _scrollController.animateTo(
-          _scrollController.position.maxScrollExtent,
-          duration: Duration(milliseconds: 200),
-          curve: Curves.easeOut,
-        );
-      }
-    });
+    if (_scrollController.hasClients && _allowAutoScroll) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: Duration(milliseconds: 200), // Smooth scroll duration
+        curve: Curves.easeOut, // Smooth scrolling curve
+      );
+    }
   }
 
   void _scrollToBottomNow() {
-    _scrollToBottom();
+    // Immediate scroll to bottom when button is clicked
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: Duration(milliseconds: 200), // Smooth scroll duration
+        curve: Curves.easeOut, // Smooth scrolling curve
+      );
+    } else {
+      print("ScrollController has no clients.");
+    }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -249,7 +283,7 @@ class _AnotherScreenState extends State<AnotherScreen> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(bottom: 8, left: 10, top: 8),
+                padding: EdgeInsets.only(bottom: 8, left: 20, top: 8,right:10),
                 child: Row(
                   children: [
                     Expanded(
@@ -257,7 +291,7 @@ class _AnotherScreenState extends State<AnotherScreen> {
                         controller: _controller,
                         style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
-                          hintText: 'Chat with Scholar Aloha',
+                          hintText: 'Chat with Aloha',
                           hintStyle: TextStyle(color: Colors.white70),
                           filled: true,
                           fillColor: Colors.grey[850],
@@ -277,22 +311,26 @@ class _AnotherScreenState extends State<AnotherScreen> {
                     ValueListenableBuilder<bool>(
                       valueListenable: _hasText,
                       builder: (context, hasText, child) {
-                        return IconButton(
-                          icon: Icon(
-                            hasText ? Icons.arrow_upward : Icons.mic,
-                            color: Colors.white,
-                            size: 30.0,
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 8.0,right:2), // Add right padding here
+                          child: IconButton(
+                            icon: Icon(
+                              hasText ? Icons.arrow_upward : Icons.mic,
+                              color: Colors.white,
+                              size: 30.0,
+                            ),
+                            onPressed: () {
+                              if (hasText) {
+                                _sendMessage();
+                              } else {
+                                // Handle microphone action
+                              }
+                            },
                           ),
-                          onPressed: () {
-                            if (hasText) {
-                              _sendMessage();
-                            } else {
-                              // Handle microphone action
-                            }
-                          },
                         );
                       },
                     ),
+
                   ],
                 ),
               ),
@@ -320,7 +358,7 @@ class _AnotherScreenState extends State<AnotherScreen> {
                 // Other widgets like your chat or content go here
                 Positioned(
                   left: 0, // Adjust this value for spacing from the left
-                  bottom: 60, // Adjust this value for spacing above the input bar
+                  bottom: 65, // Adjust this value for spacing above the input bar
                   child: Row(
                     mainAxisSize: MainAxisSize.min, // Shrink wrap the row
                     children: [
@@ -404,30 +442,35 @@ class _AnotherScreenState extends State<AnotherScreen> {
                       tileColor: _selectedDrawerItem == 1 ? Colors.grey[800] : null,
                       onTap: () {
                         setState(() {
-                          _selectedDrawerItem = 1; // Set the index for the selected item
+                          _selectedDrawerItem = 1; // Set the index for the selected item (1 for Personal Assistant)
                         });
-                        Navigator.pop(context);
+                        FocusScope.of(context).unfocus();
 
-                        // Custom page transition for AnotherScreen
-                        Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                            pageBuilder: (context, animation, secondaryAnimation) => ChatScreen(),
-                            transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                              const begin = Offset(1.0, 0.0); // Start from the right
-                              const end = Offset.zero; // End at the center
-                              const curve = Curves.easeInOut;
+                        // Delay the closing of the drawer
+                        Future.delayed(Duration(milliseconds: 0), () {
+                          Navigator.pop(context);
 
-                              var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-                              var offsetAnimation = animation.drive(tween);
+                          // Custom page transition for ChatScreen
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (context, animation, secondaryAnimation) => ChatScreen(),
+                              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                const begin = Offset(0.90, 0.0); // Start from the right
+                                const end = Offset.zero; // End at the center
+                                const curve = Curves.easeInOut;
 
-                              return SlideTransition(
-                                position: offsetAnimation,
-                                child: child,
-                              );
-                            },
-                          ),
-                        );
+                                var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                                var offsetAnimation = animation.drive(tween);
+
+                                return SlideTransition(
+                                  position: offsetAnimation,
+                                  child: child,
+                                );
+                              },
+                            ),
+                          );
+                        });
                       },
 
                     ),
@@ -448,6 +491,7 @@ class _AnotherScreenState extends State<AnotherScreen> {
                         setState(() {
                           _selectedDrawerItem = 1;
                         });
+                        FocusScope.of(context).unfocus();
                         Navigator.pop(context);
                         Navigator.push(
                           context,
@@ -472,6 +516,7 @@ class _AnotherScreenState extends State<AnotherScreen> {
                         setState(() {
                           _selectedDrawerItem = 2;
                         });
+                        FocusScope.of(context).unfocus();
                         Navigator.pop(context);
                       },
                     ),
